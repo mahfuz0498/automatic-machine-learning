@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+     	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<title> mahfuz </title>
+		
+		
+	</head>
+
+	<body class="text-secondary bg-dark" >
+
+	<div  class="jumbotron text-info bg-dark">
+  		<h1 class="display-6">MAHFUZ's ML</h1>
+  		<p class="text-secondary" class="lead"> Easy to use Machine Learning</p>
+  		<hr class="bg-dark" class="my-4">
+  		<p class="text-secondary">Get the better machine learning model </p>
+	</div>
+
+	<div class="jumbotron bg-info text-dark">
+		<form method="POST" enctype=multipart/form-data>
+			
+			<div class="form-group">
+				<h3><label for="problemType">Problem Type *</label></h3>
+				<select class="form-control" name="task" id="problemType">
+					<option>Classification</option>
+					<option>Regression</option>
+				</select>
+			</div>
+			<br>
+			<div class="form-group">
+				<h3><label for="dataset">Dataset *</label></h3>
+
+				<input style="border-radius: 5px;" class="bg-dark text-white" type="file" name="file" id="dataset">
+			</div>
+			<br>
+			<div class="form-group">
+				<h3> target column * </h3>
+				<input type="text" class="form-control" name="targetColumn" placeholder="Enter target column">
+			</div>
+			
+			<br>
+			<div class="form-group">
+				<h3><label for="formControlRange">Taining Time V/S Accuracy *</label></h3>
+				<div style=" padding : 5px 10px ; border-radius : 5px;" class=" bg-dark">
+				<label class="pull-left text-white">Quicker</label>
+				<label class="pull-right text-white">More Accuracy</label>
+					<input type="range"  class="form-control-range " name="speed" id="formControlRange">
+
+				</div>
+			</div>
+			<br>
+
+			<button type="submit" class="btn btn-dark"> SUBMIT </button>
+		</form>
+	</div>
+
+
+	{% if metrics is not none %}
+		<div class="jumbotron" style="background: #B8D130">
+  			<h2>{{ metrics['task'] }} Results </h2>
+  			<br>
+
+	  		<h3> Model Name: {{metrics['model_name']}} </h3>
+
+  			{% if metrics['task'] == 'Classification' %}
+	  			<h3>Accuracy</h3> 
+	  			<div class="progress">
+	  				<div class="progress-bar" name="accuracy" style="width:{{ metrics['accuracy'] }}%" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"> {{metrics['accuracy']}}%</div>
+	  			</div>
+	  			<br>
+	  			<h3>Precision</h3>
+	  			<div class="progress">
+	  				<div class="progress-bar" name="precision" style="width: {{ metrics['precision'] }}%" role="progressbar" aria-valuenow="{{ metrics['precision'] }}" aria-valuemin="0" aria-valuemax="100"> {{metrics['precision']}} %</div>
+	  			</div>
+	  			<br>
+	  			<h3>Recall</h3>
+	  			<div class="progress">
+	  				<div class="progress-bar" name="recall" style="width: {{ metrics['recall'] }}%" role="progressbar" aria-valuenow="{{ metrics['recall'] }}" aria-valuemin="0" aria-valuemax="100"> {{metrics['recall']}} %</div>
+	  			</div>
+	  			<br>
+	  			<form method="POST" enctype=multipart/form-data>
+	  		 	 	<button type="submit" name="download" class="btn btn-primary"><i class="fa fa-download"></i> Download Model</button>
+	  		 	</form>
+	  		 {% else %}
+	  		 	<table class="table">
+	  		 		<thead>
+	  		 			<tr>
+	  		 				<th scope="col">Metric</th>
+	  		 				<th scope="col">Value</th>
+	  		 			</tr>
+	  		 		</thead>
+		  		 	<tbody>
+		  		 		<tr>
+		  		 			<th scope="row">R^2 Score</th>
+		  		 			<td>{{metrics['r2_score']}} </td> 
+		  				</tr>
+		  				<tr>
+		  					<th scope="row">Mean Absolute Error</th>
+		  					<td>{{metrics['mean_absolute_error']}}</td>
+		  				</tr>
+		  				<tr>
+		  					<th scope="row">Mean Squared Error</th>
+		  					<td>{{metrics['mean_squared_error']}}</td>
+		  				</tr>
+		  			</tbody>
+	  			</table>
+	  			<br>
+	  			<form method="POST" enctype=multipart/form-data>
+	  		 	 	<button type="submit" name="download" class="btn btn-primary"><i class="fa fa-download"></i> Download Model</button>
+	  		 	</form>
+	  		 {% endif %}
+	  		 <br>
+
+  		</div>
+  		<div class="jumbotron" style="background: #B8D130">
+			<h2>Important features</h2>
+			<img style="width : 100% ; object-fit: contain" src="{{ metrics['feat_importances'] }}"></img>
+		</div>
+	{% endif %}
+</body>
+	
+
+</html>
